@@ -1,0 +1,116 @@
+# ===========================
+# Node.js
+# ===========================
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+.npm
+.yarn-integrity
+package-lock.json
+yarn.lock
+ 
+# ===========================
+# React.js / Create React App
+# ===========================
+build/
+dist/
+.cache/
+.parcel-cache/
+.next/
+out/
+.nuxt/
+.vuepress/dist
+ 
+# ===========================
+# Environment Variables
+# ===========================
+.env
+.env.local
+.env.development
+.env.development.local
+.env.test
+.env.test.local
+.env.production
+.env.production.local
+.env.staging
+ 
+# ===========================
+# Logs
+# ===========================
+logs/
+*.log
+log/
+npm-debug.log
+yarn-debug.log
+ 
+# ===========================
+# Database Files (eSSL)
+# ===========================
+*.mdb
+*.ldb
+*.accdb
+*.sqlite
+*.sqlite3
+*.db
+ 
+# ===========================
+# OS Files
+# ===========================
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+$RECYCLE.BIN/
+ 
+# ===========================
+# IDE / Editor
+# ===========================
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+*.user
+.project
+.classpath
+.settings/
+ 
+# ===========================
+# Testing
+# ===========================
+coverage/
+.nyc_output/
+junit.xml
+test-results/
+ 
+# ===========================
+# Misc
+# ===========================
+*.tmp
+*.temp
+*.bak
+*.backup
+*.orig
+.eslintcache
+.stylelintcache
+.sass-cache/
+*.tsbuildinfo
+.node_repl_history
+.pnp.*
+*.zip
+*.tar.gz
+ 
+# ===========================
+# eSSL Specific
+# ===========================
+DownloaderSettings.txt
+eSSL_Schedular.exe.config
+public/uploads/
