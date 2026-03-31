@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Biometric Config Panel</title>
+    <style>
+      body {
+        font-family: sans-serif;
+        max-width: 500px;
+        margin: 2rem auto;
+      }
+      .hidden {
+        display: none;
+      }
+      label {
+        display: block;
+        margin-top: 1rem;
+      }
+      input {
+        width: 100%;
+        padding: 0.5rem;
+        margin-top: 0.25rem;
+      }
+      button {
+        margin-top: 1rem;
+        padding: 0.5rem 1rem;
+      }
+      pre {
+        background: #f4f4f4;
+        padding: 1rem;
+        border-radius: 10px;
+        overflow-x: auto;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>Biometric Agent GUI</h2>
+
+    <!-- Login Form -->
+    <div id="login-section">
+      <label
+        >Password:
+        <input
+          type="password"
+          id="password"
+          autofocus
+          onkeydown="if (event.key === 'Enter') { login(); }"
+        />
+      </label>
+      <button onclick="login()">Login</button>
+      <p id="login-error" style="color: red"></p>
+    </div>
+
+    <!-- Config Form -->
+    <div id="config-section" class="hidden">
+      <button type="button" onclick="testConnection()">Test Connection</button>
+      <p id="status"></p>
+      <h3>Config</h3>
+      <form id="config-form" onsubmit="saveConfig(event)">
+        <label>Device SN: <input id="DEVICE_SN" /></label>
+        <label>Device IP: <input id="DEVICE_IP" /></label>
+        <label>Device Port: <input id="DEVICE_PORT" type="number" /></label>
+        <label>Office ID: <input id="OFFICE_ID" /></label>
+        <label>API URL: <input id="API_URL" /></label>
+        <label>API Key: <input id="API_KEY" /></label>
+        <button type="submit">Save</button>
+      </form>
+      <h4>Raw Config:</h4>
+      <pre id="config-dump"></pre>
+    </div>
+
+    <script>
+      let token = null;
+
+      async function login() {
+        const password = document.getElementById("password").value;
+        const res = await fetch("/login", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ password }),
+        });
+
+        if (res.ok) {
+          const data = await res.json();
+          token = data.token;
+          document.getElementById("login-section").classList.add("hidden");
+          document.getElementById("config-section").classList.remove("hidden");
+          loadConfig();
+        } else {
+          document.getElementById("login-error").innerText = "Invalid password";
+        }
+      }
+
+      async function loadConfig() {
+        const res = await fetch("/config");
+        const cfg = await res.json();
+        for (const key in cfg) {
+          if (document.getElementById(key)) {
+            document.getElementById(key).value = cfg[key];
+          }
+        }
+        document.getElementById("config-dump").innerText = JSON.stringify(
+          cfg,
+          null,
+          2
+        );
+      }
+
+      async function saveConfig(event) {
+        event.preventDefault();
+        const cfg = {};
+        [
+          "DEVICE_SN",
+          "DEVICE_IP",
+          "DEVICE_PORT",
+          "OFFICE_ID",
+          "API_URL",
+          "API_KEY",
+        ].forEach((key) => {
+          cfg[key] = document.getElementById(key).value;
+        });
+
+        const res = await fetch("/config", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(cfg),
+        });
+        const data = await res.json();
+        document.getElementById("config-dump").innerText = JSON.stringify(
+          data.config,
+          null,
+          2
+        );
+      }
+
+      async function testConnection() {
+        const res = await fetch("/test", {
+          headers: { Authorization: "Bearer " + token },
+        });
+        const data = await res.json();
+        const statusEl = document.getElementById("status");
+        statusEl.innerText = data.message;
+        statusEl.style.color = data.success ? "green" : "red";
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,9 @@
+{
+  "DEVICE_SN": "TDBD250600405",
+  "DEVICE_IP": "192.168.31.81",
+  "DEVICE_PORT": "4370",
+  "OFFICE_ID": "jsdgsydsy",
+  "API_URL": "https://attendance-backend.amptechnology.in/api/entry-exit-log/new/agent",
+  "API_KEY": "verysecretkey",
+  "POLL_INTERVAL_SECONDS": "120"
+}
