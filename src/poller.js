@@ -1,4 +1,4 @@
-import ZKLib from "zklib-js";
+import ZKLib from "node-zklib";
 import { loadConfig } from "./config.js";
 import { pushLogs } from "./pusher.js";
 import { saveBackup, deleteBackup } from "./storage.js";

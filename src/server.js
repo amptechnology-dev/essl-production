@@ -1,6 +1,6 @@
 import { loadConfig, saveConfig } from "./config.js";
 import indexPage from "../public/index.html";
-import ZKLib from "zklib-js";
+import ZKLib from "node-zklib";
 
 const server = Bun.serve({
   port: 3001,
@@ -29,16 +29,35 @@ const server = Bun.serve({
       },
     },
     "/test": async () => {
-      const { DEVICE_IP, DEVICE_PORT } = await loadConfig();
-      const zk = new ZKLib(DEVICE_IP, DEVICE_PORT, 30 * 1000, 80);
       try {
-        await zk.createSocket();
-        const sn = await zk.getSerialNumber();
-        await zk.disconnect();
-        return Response.json({
-          success: true,
-          message: `Connected to device, SN: ${sn}`,
-        });
+        const { DEVICE_IP, DEVICE_PORT } = await loadConfig();
+        
+        if (!DEVICE_IP || !DEVICE_PORT) {
+          return Response.json({
+            success: false,
+            message: "Device IP or Port not configured",
+          });
+        }
+ 
+        const zk = new ZKLib(DEVICE_IP, DEVICE_PORT, 30 * 1000, 80);
+        
+        try {
+          await zk.createSocket();
+          const sn = await zk.getSerialNumber();
+          await zk.disconnect();
+          
+          return Response.json({
+            success: true,
+            message: `Connected to device, SN: ${sn}`,
+          });
+        } catch (err) {
+          await zk.disconnect().catch(() => {}); 
+          
+          return Response.json({
+            success: false,
+            message: `Connection failed: ${err.message}`,
+          });
+        }
       } catch (err) {
         return Response.json({
           success: false,
