@@ -1,9 +1,14 @@
 {
-  "DEVICE_SN": "TDBD250600405",
-  "DEVICE_IP": "192.168.31.81",
+  "DEVICE_SN": "NFZ8252501037",
+  "DEVICE_IP": "192.168.1.201",
+  "DEVICE_IP_ALTERNATES": "192.168.1.200",
   "DEVICE_PORT": "4370",
-  "OFFICE_ID": "jsdgsydsy",
+  "OFFICE_ID": "672f403c145682dae946de36",
   "API_URL": "https://attendance-backend.amptechnology.in/api/entry-exit-log/new/agent",
   "API_KEY": "verysecretkey",
-  "POLL_INTERVAL_SECONDS": "120"
+  "POLL_INTERVAL_SECONDS": "120",
+  "DEVICE_TIMEOUT_MS": "30000",
+  "DEVICE_INPORT": "5200",
+  "DEVICE_CONNECTION_MODE": "tcp",
+  "CLEAR_DEVICE_LOGS_AFTER_PUSH": "true"
 }
